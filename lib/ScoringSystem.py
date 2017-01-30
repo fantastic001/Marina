@@ -15,7 +15,7 @@ class ScoringSystem(object):
 
     def getScore(self):
         score = 0 
-        for q in questions:
+        for q in self.questions:
             score = score + q.getPoints()
         return score
 

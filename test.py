@@ -19,3 +19,6 @@ s.saveQuestionsToJSON("test.json")
 s2 = ScoringSystem.loadQuestionsFromJSON("test.json")
 
 s2.saveQuestionsToJSON("test2.json")
+
+ranking = StandardInputSingleCandidateRankingSystem(s2)
+print("Final score: %f" % ranking.scoreCandidates()) 

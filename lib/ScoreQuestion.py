@@ -21,7 +21,7 @@ class ScoreQuestion(Question):
         if ans < self.min_score or ans > self.max_score:
             raise WrongAnswerException()
         else:
-            return (self.max_score - self.min_score + 1) * self.points_per_score
+            return ans* self.points_per_score
 
     def getMessage(self):
         return self.msg
