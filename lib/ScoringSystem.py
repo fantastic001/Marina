@@ -7,8 +7,9 @@ from .MultiChoiceQuestion import *
 
 class ScoringSystem(object):
     
-    def __init__(self):
+    def __init__(self, name=""):
         self.questions = [] 
+        self.name = name
 
     def addQuestion(self, q):
         self.questions.append(q)
@@ -61,13 +62,16 @@ class ScoringSystem(object):
 
     def saveQuestionsToJSON(self, path):
             f = open(path, "w")
-            f.write(json.dumps(self.makeQuestionsDict(), indent=4, sort_keys=True))
+            q = self.makeQuestionsDict()
+            q["name"] = self.name
+            f.write(json.dumps(q, indent=4, sort_keys=True))
             f.close()
 
     def loadQuestionsFromJSON(path):
         f = open(path)
         data = json.loads(f.read())
-        ss = ScoringSystem()
+        name = data.get("name", "")
+        ss = ScoringSystem(name)
         for q in data["questions"]:
             ss.addQuestion(ScoringSystem.dictToQuestion(q))
         f.close()
@@ -75,9 +79,10 @@ class ScoringSystem(object):
 
     def saveAnswersToJSON(self, path):
         data = self.makeQuestionsDict()
+        data["name"] = self.name
         for i in range(len(data["questions"])):
             for question in self.getQuestions():
-                if question.ask() == data["questions"][i].ask():
+                if question.ask() == ScoringSystem.dictToQuestion(data["questions"][i]).ask():
                     data["questions"][i]["answer"] = question.getAnswer()
         f = open(path, "w")
         f.write(json.dumps(data, indent=4, sort_keys=True))
