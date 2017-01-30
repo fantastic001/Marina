@@ -22,7 +22,7 @@ class ScoringSystem(object):
     def getQuestions(self):
         return self.questions
 
-    def saveQuestionsToJSON(self, path):
+    def makeQuestionsDict(self):
         data = {}
         data["questions"] = [] 
         for q in self.getQuestions():
@@ -45,8 +45,23 @@ class ScoringSystem(object):
                     C["points"] = c[1]
                     Q["choices"].append(C)
             data["questions"].append(Q)
+        return data
+
+    def dictToQuestion(q):
+        if q["type"] == "yesno":
+            return YesNoQuestion(q["message"], int(q["yes_points"]), int(q["no_points"]))
+        elif q["type"] == "score":
+            return ScoreQuestion(q["message"], int(q["min_score"]), int(q["max_score"]), float(q["points_per_score"]))
+        elif q["type"] == "multi_choice":
+            mq = MultiChoiceQuestion(q["message"])
+            for c in q["choices"]:
+                mq.addChoice(c["choice"], int(c["points"]))
+            return mq
+        
+
+    def saveQuestionsToJSON(self, path):
             f = open(path, "w")
-            f.write(json.dumps(data))
+            f.write(json.dumps(self.makeQuestionsDict()))
             f.close()
 
     def loadQuestionsFromJSON(path):
@@ -54,19 +69,28 @@ class ScoringSystem(object):
         data = json.loads(f.read())
         ss = ScoringSystem()
         for q in data["questions"]:
-            if q["type"] == "yesno":
-                ss.addQuestion(YesNoQuestion(q["message"], int(q["yes_points"]), int(q["no_points"])))
-            elif q["type"] == "score":
-                ss.addQuestion(ScoreQuestion(q["message"], int(q["min_score"]), int(q["max_score"]), float(q["points_per_score"])))
-            elif q["type"] == "multi_choice":
-                mq = MultiChoiceQuestion(q["message"])
-                for c in q["choices"]:
-                    mq.addChoice(c["choice"], int(c["points"]))
-                ss.addQuestion(mq)
+            ss.addQuestion(ScoringSystem.dictToQuestion(q))
         f.close()
         return ss
+
     def saveAnswersToJSON(self, path):
-        pass
+        data = self.makeQuestionsDict()
+        for i in range(len(data["questions"])):
+            for question in self.getQuestions():
+                if question.ask() == data["questions"][i].ask():
+                    data["questions"][i]["answer"] = question.getAnswer()
+        f = open(path, "w")
+        f.write(data)
+        f.close()
 
     def loadAnswersFromJSON(path):
-        pass
+        ss = ScoringSystem.loadQuestionsFromJSON(path)
+        f = open(path)
+        data = json.loads(f.read())
+        s = ScoringSystem()
+        for q in ss.getQuestions():
+            for question in data["questions"]:
+                if ScoringSystem.dictToQuestion(question).ask() == q.ask():
+                    q.answer(question["answer"])
+                    s.addQuestion(q)
+        return s
