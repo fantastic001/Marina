@@ -18,4 +18,3 @@ class StandardInputSingleCandidateRankingSystem(RankingSystem):
                 q.answer(input(q.ask() + " "))
         return ss.getScore()
 
-                    
