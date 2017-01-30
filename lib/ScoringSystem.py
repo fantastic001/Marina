@@ -61,7 +61,7 @@ class ScoringSystem(object):
 
     def saveQuestionsToJSON(self, path):
             f = open(path, "w")
-            f.write(json.dumps(self.makeQuestionsDict()))
+            f.write(json.dumps(self.makeQuestionsDict(), indent=4, sort_keys=True))
             f.close()
 
     def loadQuestionsFromJSON(path):
@@ -80,7 +80,7 @@ class ScoringSystem(object):
                 if question.ask() == data["questions"][i].ask():
                     data["questions"][i]["answer"] = question.getAnswer()
         f = open(path, "w")
-        f.write(data)
+        f.write(json.dumps(data, indent=4, sort_keys=True))
         f.close()
 
     def loadAnswersFromJSON(path):
