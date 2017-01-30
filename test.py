@@ -15,3 +15,7 @@ mq.addChoice("Choice 4", 4)
 s.addQuestion(mq)
 
 s.saveQuestionsToJSON("test.json")
+
+s2 = ScoringSystem.loadQuestionsFromJSON("test.json")
+
+s2.saveQuestionsToJSON("test2.json")

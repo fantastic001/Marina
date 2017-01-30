@@ -1,6 +1,10 @@
 
 import json 
 
+from .YesNoQuestion import * 
+from .ScoreQuestion import * 
+from .MultiChoiceQuestion import * 
+
 class ScoringSystem(object):
     
     def __init__(self):
@@ -46,8 +50,21 @@ class ScoringSystem(object):
             f.close()
 
     def loadQuestionsFromJSON(path):
-        pass
-
+        f = open(path)
+        data = json.loads(f.read())
+        ss = ScoringSystem()
+        for q in data["questions"]:
+            if q["type"] == "yesno":
+                ss.addQuestion(YesNoQuestion(q["message"], int(q["yes_points"]), int(q["no_points"])))
+            elif q["type"] == "score":
+                ss.addQuestion(ScoreQuestion(q["message"], int(q["min_score"]), int(q["max_score"]), float(q["points_per_score"])))
+            elif q["type"] == "multi_choice":
+                mq = MultiChoiceQuestion(q["message"])
+                for c in q["choices"]:
+                    mq.addChoice(c["choice"], int(c["points"]))
+                ss.addQuestion(mq)
+        f.close()
+        return ss
     def saveAnswersToJSON(self, path):
         pass
 
