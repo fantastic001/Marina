@@ -1,0 +1,14 @@
+from distutils.core import setup
+setup(
+  name = 'Marina',
+  packages = ['Marina'], # this must be the same as the name above
+  version = '0.9',
+  description = 'Decision making tool',
+  author = 'Stefan Nožinić',
+  author_email = 'stefan@lugons.org',
+  url = 'https://github.com/fantastic001/Marina', # use the URL to the github repo
+  download_url = 'https://github.com/fantastic001/Marina/tarball/0.9', 
+  keywords = ['decision-making', 'scoring', 'organization', 'lifehack'], # arbitrary keywords
+  classifiers = [],
+  install_requires=[] # dependencies listed here 
+)
