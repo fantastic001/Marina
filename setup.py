@@ -1,7 +1,7 @@
 from distutils.core import setup
 setup(
-  name = 'Marina',
-  packages = ['Marina'], # this must be the same as the name above
+  name = 'Marina-decide',
+  packages = ['Marina-decide'], # this must be the same as the name above
   version = '0.9',
   description = 'Decision making tool',
   author = 'Stefan Nožinić',
