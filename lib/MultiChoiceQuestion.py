@@ -13,7 +13,7 @@ class MultiChoiceQuestion(Question):
         self.choices = []
 
     def ask(self):
-        s = self.msg + " (Enter number between 1 and %d)" % len(self.choices)
+        return self.msg + " (Enter number between 1 and %d)" % len(self.choices)
 
     def getPoints(self):
         ans = int(self.getAnswer()) - 1
