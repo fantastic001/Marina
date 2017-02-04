@@ -3,7 +3,7 @@
 import sys
 import json
 import os
-from lib import * 
+from Marina_decide import * 
 def print_help():
     s = """
 This is Marina. Marina is decision making tool for you. Marina will help you create questionaries, criteria and then score 

@@ -1,5 +1,5 @@
 #!python
-from lib import * 
+from Marina_decide import * 
 
 s = ScoringSystem()
 
