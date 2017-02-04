@@ -20,7 +20,7 @@ marina score_answered <path> - Score candidate for criteria specified by given a
 def load_config():
     cfg = {}
     try:
-        f = open("~/.marina/config.json")
+        f = open("%s/.marina/config.json" % os.environ["HOME"])
         cfg = json.loads(f.read())
         return cfg
     except FileNotFoundError:
