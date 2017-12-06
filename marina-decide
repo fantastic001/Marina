@@ -109,6 +109,7 @@ if __name__ == "__main__":
             s = ScoringSystem.loadQuestionsFromJSON(db_path + "/" + sys.argv[2] + ".json")
             ranking = StandardInputSingleCandidateRankingSystem(s)
             ranking.scoreCandidates()
+            print("Score: %f" % ranking.getScoringSystem().getScore())
             ans = input("Do you want to save answers? ")
             if ans in ["yes", "y"]:
                 path = input("Enter path to file where you want to save answers: ")
