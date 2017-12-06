@@ -16,6 +16,8 @@ class RankingSystem():
         This has to be implemented for every specific ranking system. 
 
         This method is aimed to provide answers to questions for scoring system
+
+        Returns score.
         """
         pass
 
